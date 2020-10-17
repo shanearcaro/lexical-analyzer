@@ -24,16 +24,16 @@ static std::map<Token, std::string> tokenPrint {
 };
 
 ostream& operator<<(ostream& out, const LexItem& tok) {
-    std::string* tokenType = &tokenPrint[tok.GetToken()];
+    std::string *token = &tokenPrint[tok.GetToken()];
+    std::cout << *token;
 
-    bool writeVal = *tokenType == "IDENT"  || *tokenType == "ICONST" ||
-                    *tokenType == "SCONST" || *tokenType == "RCONST" ||
-                    *tokenType == "ERR";
+    bool eval = (tok.GetToken() == SCONST) || (tok.GetToken() == RCONST) ||
+                (tok.GetToken() == ICONST) || (tok.GetToken() == IDENT)  ||
+                (tok.GetToken() == ERR);
 
-    std::cout << *tokenType;
-    if (writeVal)
+    if (eval)
         std::cout << " (" << tok.GetLexeme() << ")";
-    std::cout << " Line #: " << tok.GetLinenum() << std::endl;
+    return out;
 }
 
 LexItem currentToken;
@@ -127,7 +127,6 @@ LexItem getNextToken(istream& in, int& linenum) {
             case INSTRING:
                 if (character == 10)
                     return LexItem(ERR, lexeme, linenum);
-                // This will only ever match at the end of a string
 
                 if (std::regex_match(lexeme + character, std::regex("\"[ -~]*"))) {
                     if (character == '\\' && in.peek() == '\"') {
