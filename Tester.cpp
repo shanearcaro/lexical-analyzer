@@ -51,18 +51,20 @@ int main(int argc, char** argv) {
                 break;
             }
         }
+        std::cout << std::endl;
         std::cout << "Lines: " << lineNumber << std::endl;
-        if (lineNumber != 0)
+        if (tokenCount != 0)
             std::cout << "Tokens: " << tokenCount << std::endl;
 
+
         std::cout << std::endl;
-        if (tokens[0].GetToken() == SCONST)
+        if (arguments[4] == "true")
             std::cout << "STRINGS:" << std::endl;
-        else if (tokens[0].GetToken() == ICONST)
+        else if (arguments[2] == "true")
             std::cout << "INTEGERS:" << std::endl;
-        else if (tokens[0].GetToken() == RCONST)
+        else if (arguments[3] == "true")
             std::cout << "REALS:" << std::endl;
-        else if (tokens[0].GetToken() == IDENT)
+        else if (arguments[5] == "true")
             std::cout << "IDENTIFIERS: ";
 
         if (tokens.size() != 0) {

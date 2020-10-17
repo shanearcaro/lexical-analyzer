@@ -49,10 +49,13 @@ LexItem getNextToken(istream& in, int& linenum) {
     while (in.get(character)) {
         switch (lexstate) {
             case START:
-                if (in.peek() == -1)
-                    return LexItem(DONE, lexeme, linenum);
                 if (character == '\n')
                     linenum++;
+                if (in.peek() == -1) {
+                    if (previousToken.GetToken() != END)
+                        return LexItem(ERR, previousToken.GetLexeme(), previousToken.GetLinenum());
+                    return LexItem(DONE, lexeme, linenum);
+                }
                 if (std::isspace(character))
                     continue;
                 
@@ -292,4 +295,5 @@ LexItem getNextToken(istream& in, int& linenum) {
                 break;
         }     
     }
+    return LexItem(DONE, "", linenum);
 }
