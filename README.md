@@ -7,8 +7,11 @@ The analyzer is used to analyze a basic programming language that contains basic
 The style of implementation for this program was mostly joined with a previous assignment about operation overloading. This assignment works as the second part of a three assignment series of creating a lexical analyzer.
 
 ## Flag Types
--v prints tokens as they are found
--iconsts prints integer tokens
--rconsts prints real tokens
--sconsts prints string tokens
--ids prints identifier tokens
+Parameter | Description | Required
+----------|-------------|---------
+`-v` | Prints tokens when found | No
+`-iconsts` | Prints integer tokens | No
+`-rconsts` | Prints real tokens | No
+`sconsts` | Print strings | No
+`ids` | Prints identifiers | No
+`filename` | File path | Yes
