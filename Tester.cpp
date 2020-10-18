@@ -28,6 +28,7 @@ int main(int argc, char** argv) {
     int tokenCount = 0;
 
     if (file.is_open()) {
+        // Loop will break at error or end of file 
         while (true) {
             token = getNextToken(file, lineNumber);
 
@@ -35,6 +36,7 @@ int main(int argc, char** argv) {
                 break;
             tokenCount++;
 
+            // Record tokens based on command line flag arguments
             if (arguments[1] == "true")
                 std::cout << token << std::endl;
             else if (arguments[2] == "true" && token.GetToken() == ICONST) 
@@ -67,6 +69,7 @@ int main(int argc, char** argv) {
         else if (arguments[5] == "true")
             std::cout << "IDENTIFIERS: ";
 
+        // Size will be larger than 0 if command line flag arguments are given
         if (tokens.size() != 0) {
             OrganizeTokens(tokens);
             if (tokens[0].GetToken() != IDENT) {
@@ -83,10 +86,18 @@ int main(int argc, char** argv) {
         }
     }
     else {
+        // Invalid file directory path
         std::cout << "CANNOT OPEN THE FILE " << arguments[0] << std::endl;
     }
 }
 
+/** 
+ * Record and organize command line arguments in a vector
+ * Also responsible for catching errors when multiple files
+ * or invalid argument is given.
+ * 
+ * All arguments except file name need to start with a dash
+ */
 std::vector<std::string> CommandArguments(int argc, char** argv) {
     std::vector<std::string> properties {"file", "false", "false", "false", "false" , "false"};
 
@@ -118,6 +129,10 @@ std::vector<std::string> CommandArguments(int argc, char** argv) {
     return properties;
 }
 
+/** 
+ * Remove duplicate values from a vector of Tokens to print to
+ * the screen. All values that are printed have to be unique.
+ */
 void RemoveDuplicates(std::vector<LexItem> &tokens) {
     for (int i = 0; i < tokens.size() - 1; i++) {
         for (int j = i + 1; j < tokens.size(); j++) {
@@ -130,14 +145,38 @@ void RemoveDuplicates(std::vector<LexItem> &tokens) {
     }
 }
 
+/** 
+ * Organize tokens within a vector in either alphabetical order
+ * or numerical order depending on value.
+ * Tokens must have duplicates removed and then organized to 
+ * be printed to the scrren.
+ */
 void OrganizeTokens(std::vector<LexItem> &tokens) {
     if (tokens.size() == 1)
         return;
     RemoveDuplicates(tokens);
     for (int i = 0; i < tokens.size(); i++) {
         for (int j = i; j < tokens.size(); j++) {
-            if (tokens.at(j).GetLexeme() < tokens.at(i).GetLexeme()) {
-                LexItem remove = tokens.at(j);
+            LexItem remove = tokens.at(j);
+            bool erase = false;
+            if (tokens.at(i).GetToken() == ICONST) {
+                int alpha = std::stoi(tokens.at(j).GetLexeme());
+                int beta = std::stoi(tokens.at(i).GetLexeme());
+
+                if (alpha < beta)
+                    erase = true;
+            }
+            else if (tokens.at(i).GetToken() == RCONST) {
+                int alpha = std::stof(tokens.at(j).GetLexeme());
+                int beta = std::stof(tokens.at(i).GetLexeme());
+
+                if (alpha < beta)
+                    erase = true;
+            }
+            else if (tokens.at(j).GetLexeme() < tokens.at(i).GetLexeme()) 
+                erase = true;
+            
+            if (erase) {
                 tokens.erase(tokens.begin() + j);
                 tokens.insert(tokens.begin() + i, remove);
             }
@@ -145,6 +184,11 @@ void OrganizeTokens(std::vector<LexItem> &tokens) {
     }
 }
 
+/** 
+ * Sets a single argument to true at a time. Because only a single 
+ * argument can be true at a time, whenever a new argument is given
+ * all other elements have to be set to false.
+ */
 void DetermineArgument(std::vector<std::string> &arguments, int index) {
     for (int i = 1; i < arguments.size(); i++)
         arguments[i] = i == index ? "true" : "false";
