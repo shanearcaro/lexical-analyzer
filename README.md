@@ -12,6 +12,6 @@ Parameter | Description | Required
 `-v` | Prints tokens when found | No
 `-iconsts` | Prints integer tokens | No
 `-rconsts` | Prints real tokens | No
-`sconsts` | Print strings | No
-`ids` | Prints identifiers | No
+`-sconsts` | Print strings | No
+`-ids` | Prints identifiers | No
 `filename` | File path | Yes
