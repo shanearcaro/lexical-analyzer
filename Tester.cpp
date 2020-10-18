@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 
             if (token == ERR) {
                 std::cout << "ERROR ON LINE " << token.GetLinenum() << " " << token.GetLexeme() << std::endl;
-                break;
+                std::exit(1);
             }
         }
         std::cout << std::endl;

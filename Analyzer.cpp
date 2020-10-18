@@ -53,7 +53,7 @@ LexItem getNextToken(istream& in, int& linenum) {
                     linenum++;
                 if (in.peek() == -1) {
                     if (previousToken.GetToken() != END)
-                        return LexItem(ERR, previousToken.GetLexeme(), previousToken.GetLinenum());
+                        return LexItem(ERR, "No END Token", previousToken.GetLinenum());
                     return LexItem(DONE, lexeme, linenum);
                 }
                 if (std::isspace(character))
@@ -122,12 +122,17 @@ LexItem getNextToken(istream& in, int& linenum) {
                             return LexItem(ERR, lexeme, linenum);
                         currentToken = LexItem(IDENT, lexeme, linenum);
                     }
+
+                    if (currentToken != BEGIN && previousToken == ERR)
+                        return LexItem(ERR, "No BEGIN Token", currentToken.GetLinenum());
                     previousToken = currentToken;
                     return currentToken;
                 }
                 break;
 
             case INSTRING:
+                if (previousToken == ERR)
+                    return LexItem(ERR, "No Begin Token", linenum);
                 if (character == 10)
                     return LexItem(ERR, lexeme, linenum);
 
@@ -150,6 +155,8 @@ LexItem getNextToken(istream& in, int& linenum) {
                 break;
 
             case ININT:
+                if (previousToken == ERR)
+                    return LexItem(ERR, "No Begin Token", linenum);
                 // Checks if an alpha character is next to an integer number
                 if (std::isalpha(character))
                     return LexItem(ERR, lexeme + character, linenum);
@@ -171,6 +178,8 @@ LexItem getNextToken(istream& in, int& linenum) {
                 break;
 
             case INREAL:
+                if (previousToken == ERR)
+                    return LexItem(ERR, "No Begin Token", linenum);
                 // Checks if an alpha character is next to a real number
                 if (std::isalpha(character))
                     return LexItem(ERR, lexeme + character, linenum);
@@ -202,6 +211,8 @@ LexItem getNextToken(istream& in, int& linenum) {
              *       values for testing. Code has to be refactored to not be repetitive.
              */
             case SIGN:
+                if (previousToken == ERR)
+                    return LexItem(ERR, "No Begin Token", linenum);
                 if (lexeme == "+" || lexeme == "*" || lexeme == "/") {
                     Token token = previousToken.GetToken();
                     if (token == IDENT || token == ICONST || token == RCONST) {
