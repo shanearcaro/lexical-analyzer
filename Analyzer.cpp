@@ -221,10 +221,10 @@ LexItem getNextToken(istream& in, int& linenum) {
                 // Checks if an alpha character is next to a real number
                 if (std::isalpha(character))
                     return LexItem(ERR, lexeme + character, linenum);
-                if (std::regex_match(lexeme + character, std::regex("[0-9]*.[0-9]+"))) {
+                if (std::regex_match(lexeme + character, std::regex("[0-9]*\\.[0-9]+"))) {
                     lexeme += character;
                 }
-                else if (std::regex_match(lexeme + character, std::regex("[0-9]*.[0-9]*"))) {
+                else if (std::regex_match(lexeme + character, std::regex("[0-9]*\\.[0-9]*"))) {
                     lexeme += character;
                 }
                 else {

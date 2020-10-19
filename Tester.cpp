@@ -166,7 +166,7 @@ void OrganizeTokens(std::vector<LexItem> &tokens) {
                 if (alpha < beta)
                     erase = true;
             }
-            else if (tokens.at(i).GetToken() == RCONST) {
+            else if(tokens.at(i).GetToken() == RCONST) {
                 int alpha = std::stof(tokens.at(j).GetLexeme());
                 int beta = std::stof(tokens.at(i).GetLexeme());
 
