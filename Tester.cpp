@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
     std::ifstream file;
     file.open(arguments[0]);
     std::vector<LexItem> tokens;
-    int lineNumber = 1;
+    int lineNumber = 0;
     int tokenCount = 0;
 
     if (file.is_open()) {
@@ -60,14 +60,16 @@ int main(int argc, char** argv) {
 
 
         std::cout << std::endl;
-        if (arguments[4] == "true")
-            std::cout << "STRINGS:" << std::endl;
-        else if (arguments[2] == "true")
-            std::cout << "INTEGERS:" << std::endl;
-        else if (arguments[3] == "true")
-            std::cout << "REALS:" << std::endl;
-        else if (arguments[5] == "true")
-            std::cout << "IDENTIFIERS: ";
+        if (tokens.size() > 0) {
+            if (arguments[4] == "true")
+                std::cout << "STRINGS:" << std::endl;
+            else if (arguments[2] == "true")
+                std::cout << "INTEGERS:" << std::endl;
+            else if (arguments[3] == "true")
+                std::cout << "REALS:" << std::endl;
+            else if (arguments[5] == "true")
+                std::cout << "IDENTIFIERS: ";
+        }
 
         // Size will be larger than 0 if command line flag arguments are given
         if (tokens.size() != 0) {
