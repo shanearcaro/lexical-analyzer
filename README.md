@@ -2,11 +2,11 @@
 
 ## Lexical Analyzer
 
-The analyzer is used to analyze a basic programming language that contains basic mathematical operations along with strings and basic statements. The code must start with a begin token and end with an end token.
+The analyzer is used to read in a text file and determine what the next token is. With the knowledge of the next and previous token, the analyzer determines if an error has occured and what the error is. The language that is being analyzer here is an untyped language that can recognzie `strings`, `ints`, and `real numbers`. The language also supports single line `comments` and single line `if then` statements.
 
 ## Implementation
 
-The style of implementation for this program was mostly joined with a previous assignment about operation overloading. This assignment works as the second part of a three assignment series of creating a lexical analyzer.
+This assignment is a combination of an earlier assignment to overload the `<<` operator for output of a `LexItem` token. This assignment will be combined with our next assignment, creating a parser.
 
 ## Flag Types
 
