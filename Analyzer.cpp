@@ -30,12 +30,13 @@ static std::map<Token, std::string> tokenPrint {
  * Operator overloading << for Token object
  */
 ostream& operator<<(ostream& out, const LexItem& tok) {
-    std::string *token = &tokenPrint[tok.GetToken()];
+    Token tType = tok.GetToken();
+    std::string *token = &tokenPrint[tType];
     std::cout << *token;
 
-    bool eval = (tok.GetToken() == SCONST) || (tok.GetToken() == RCONST) ||
-                (tok.GetToken() == ICONST) || (tok.GetToken() == IDENT)  ||
-                (tok.GetToken() == ERR);
+    bool eval = (tType == SCONST) || (tType == RCONST) ||
+                (tType == ICONST) || (tType == IDENT)  ||
+                (tType == ERR);
 
     if (eval)
         std::cout << " (" << tok.GetLexeme() << ")";
@@ -57,7 +58,6 @@ LexItem getNextToken(istream& in, int& linenum) {
     enum TokenState { START, INID, INSTRING, ININT, INREAL, INCOMMENT, SIGN} lexstate = START;
     std::string lexeme;
     char character;
-    char nextCharacter;
 
     // Search until a token is found or eof is reached.
     while (in.get(character)) {
