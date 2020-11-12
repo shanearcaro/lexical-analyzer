@@ -5,9 +5,7 @@
  * Author: Shane Arcaro (sma237@njit.edu)
  */
 
-#include <iostream>
 #include <regex>
-#include <map>
 #include "lex.h"
 
 /** 

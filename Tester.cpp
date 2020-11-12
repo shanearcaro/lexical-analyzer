@@ -10,7 +10,7 @@
 #include <vector>
 #include <sstream>
 #include <map>
-#include "Analyzer.cpp"
+#include "lex.h"
 
 void RemoveDuplicates(std::vector<LexItem> &tokens);
 void OrganizeTokens(std::vector<LexItem> &tokens);
